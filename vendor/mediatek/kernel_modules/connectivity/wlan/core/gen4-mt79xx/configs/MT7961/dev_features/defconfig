@@ -1,0 +1,16 @@
+$(info dev config)
+CONFIG_CONNAC2_LISTMODE_ENABLE=n
+# For SQC only
+CONFIG_SUPPORT_SER_DEBUGFS=y
+# For Auto only
+CONFIG_CONNAC2_PROTECT_SEC_FWDL=y
+# For Pwr table compatibility
+CONFIG_MTK_WIFI_TXPWR_DAT_FN=y
+# For SQC2.7
+CONFIG_MTK_WIFI_SUPPORT_6G_PWR_REGS=y
+CONFIG_SUPPORT_FW_LOG_TIMESYNC=y
+
+#0: no mem shrink 1: low mem shrink 2: middle mem shrink 3: high mem shrink
+#SQC2.7 use level 1
+CONFIG_MEM_SHRINK_LEVEL=1
+

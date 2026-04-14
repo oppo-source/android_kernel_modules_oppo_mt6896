@@ -1,0 +1,25 @@
+load("//build/bazel_mgk_rules:mgk_ko.bzl", "define_mgk_ko")
+load("@mgk_info//:kernel_version.bzl","kernel_version",)
+
+
+package(
+    default_visibility = [
+        "//visibility:public",
+    ],
+)
+
+mt6768_outs = [
+    "mt6768/mali_avalon/mali-r49p1/drivers/base/arm/memory_group_manager/mali_mgm_mt6768_r49.ko",
+    "mt6768/mali_avalon/mali-r49p1/drivers/base/arm/protected_memory_allocator/mali_prot_alloc_mt6768_r49.ko",
+    "mt6768/mali_avalon/mali-r49p1/drivers/base/arm/dma_buf_test_exporter/mali_dmabuf_test_mt6768_r49.ko",
+    "mt6768/mali_avalon/mali-r49p1/drivers/gpu/arm/midgard/mali_kbase_mt6768_r49.ko",
+]
+
+
+define_mgk_ko(
+    name = "gpu_mt6768",
+    srcs = glob(["**"]),
+    outs = (
+    mt6768_outs if glob(["mt6768/*"]) else []
+    ),
+)

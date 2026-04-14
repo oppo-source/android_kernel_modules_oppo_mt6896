@@ -1,0 +1,249 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/*
+ * Copyright (C) 2022 MediaTek Inc.
+ */
+#include "k6895v1_64.dts"
+#include "wl2868c-regulator_23021_new_DVT.dtsi"
+#include "oplus/oplus_sensor_23021.dtsi"
+#include "oplus/tp/oplus_tp_23021.dtsi"
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+#include "oplus/oplus_chg/oplus_charge_23251.dtsi"
+/* #endif */
+
+&odm {
+	/*OPLUS_FEATURE_OEM_OCDT oppo project start */
+	oplus_project:oplus_project {
+		compatible = "oplus,oplus_project";
+    };
+
+	oplus_boardid:oplus_boardid {
+		compatible = "oplus,oplus_boardid";
+		oplus_boardid,dtsino="23251";//only one u32
+		oplus_boardid,pcbmask="0xff80";//all mask 0xffff
+	};
+
+    pmic_history_count:pmic_history_count {
+    };
+    pmic_history0:pmic_history0 {
+    };
+    pmic_history1:pmic_history1 {
+    };
+    pmic_history2:pmic_history2 {
+    };
+    pmic_history3:pmic_history3 {
+    };
+};
+
+&pio {
+	//#ifdef OPLUS_VENDOR_SWTP
+	swtp: swtp {
+		compatible = "mediatek, swtp-eint";
+	};
+	 swtp_1: swtp_1 {
+        compatible = "mediatek, swtp1-eint";
+    };
+	//#endif  /*OPLUS_VENDOR_SWTP*/
+};
+&mt6368_vmch {
+	regulator-min-microvolt = <3100000>;
+	regulator-max-microvolt = <3100000>;
+	//regulator-boot-on;
+	//regulator-always-on;
+};
+&mtk_leds {
+	compatible = "mediatek,disp-leds";
+	backlight {
+		label = "lcd-backlight";
+		led_mode = <4>;
+		min-brightness = <1>;
+		max-brightness = <4095>;
+		max-hw-brightness = <4095>;
+		led-bits = <13>;
+		apollo-state = "on";
+		};
+};
+
+&dispsys_config {
+	pinctrl-names =
+		"lcm_rst_out1_gpio", "lcm_rst_out0_gpio",
+		"mode_te_te";
+	pinctrl-0 = <&mtkfb_pins_lcm_rst_out1_gpio>;
+	pinctrl-1 = <&mtkfb_pins_lcm_rst_out0_gpio>;
+	pinctrl-2 = <&mtkfb_pins_lcm_dsi_te>;
+	status = "okay";
+	support_mml_cmd_mode;
+
+	helper-name = "MTK_DRM_OPT_STAGE",
+			"MTK_DRM_OPT_USE_CMDQ",
+			"MTK_DRM_OPT_USE_M4U",
+			"MTK_DRM_OPT_MMQOS_SUPPORT",
+			"MTK_DRM_OPT_MMDVFS_SUPPORT",
+			"MTK_DRM_OPT_SODI_SUPPORT",
+			"MTK_DRM_OPT_IDLE_MGR",
+			"MTK_DRM_OPT_IDLEMGR_SWTCH_DECOUPLE",
+			"MTK_DRM_OPT_IDLEMGR_BY_REPAINT",
+			"MTK_DRM_OPT_IDLEMGR_ENTER_ULPS",
+			"MTK_DRM_OPT_IDLEMGR_KEEP_LP11",
+			"MTK_DRM_OPT_DYNAMIC_RDMA_GOLDEN_SETTING",
+			"MTK_DRM_OPT_IDLEMGR_DISABLE_ROUTINE_IRQ",
+			"MTK_DRM_OPT_MET_LOG",
+			"MTK_DRM_OPT_USE_PQ",
+			"MTK_DRM_OPT_ESD_CHECK_RECOVERY",
+			"MTK_DRM_OPT_ESD_CHECK_SWITCH",
+			"MTK_DRM_OPT_PRESENT_FENCE",
+			"MTK_DRM_OPT_RDMA_UNDERFLOW_AEE",
+			"MTK_DRM_OPT_DSI_UNDERRUN_AEE",
+			"MTK_DRM_OPT_HRT",
+			"MTK_DRM_OPT_HRT_MODE",
+			"MTK_DRM_OPT_DELAYED_TRIGGER",
+			"MTK_DRM_OPT_OVL_EXT_LAYER",
+			"MTK_DRM_OPT_AOD",
+			"MTK_DRM_OPT_RPO",
+			"MTK_DRM_OPT_DUAL_PIPE",
+			"MTK_DRM_OPT_DC_BY_HRT",
+			"MTK_DRM_OPT_OVL_WCG",
+			"MTK_DRM_OPT_OVL_SBCH",
+			"MTK_DRM_OPT_COMMIT_NO_WAIT_VBLANK",
+			"MTK_DRM_OPT_MET",
+			"MTK_DRM_OPT_REG_PARSER_RAW_DUMP",
+			"MTK_DRM_OPT_VP_PQ",
+			"MTK_DRM_OPT_GAME_PQ",
+			"MTK_DRM_OPT_MMPATH",
+			"MTK_DRM_OPT_HBM",
+			"MTK_DRM_OPT_VDS_PATH_SWITCH",
+			"MTK_DRM_OPT_LAYER_REC",
+			"MTK_DRM_OPT_CLEAR_LAYER",
+			"MTK_DRM_OPT_LFR",
+			"MTK_DRM_OPT_SF_PF",
+			"MTK_DRM_OPT_DYN_MIPI_CHANGE",
+			"MTK_DRM_OPT_PRIM_DUAL_PIPE",
+			"MTK_DRM_OPT_MSYNC2_0",
+			"MTK_DRM_OPT_MML_PRIMARY",
+			"MTK_DRM_OPT_DUAL_TE",
+			"MTK_DRM_OPT_VIRTUAL_DISP",
+			"MTK_DRM_OPT_SPHRT",
+			"MTK_DRM_OPT_SDPA_OVL_SWITCH",
+			"MTK_DRM_OPT_OVL_BW_MONITOR",
+			"MTK_DRM_OPT_RES_SWITCH",
+			"MTK_DRM_OPT_PREFETCH_TE";
+
+	helper-value = <0>, /*MTK_DRM_OPT_STAGE*/
+	<1>, /*MTK_DRM_OPT_USE_CMDQ*/
+	<1>, /*MTK_DRM_OPT_USE_M4U*/
+	<1>, /*MTK_DRM_OPT_MMQOS_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_MMDVFS_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_SODI_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_IDLE_MGR*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_SWTCH_DECOUPLE*/
+	<1>, /*MTK_DRM_OPT_IDLEMGR_BY_REPAINT*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_ENTER_ULPS*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_KEEP_LP11*/
+	<1>, /*MTK_DRM_OPT_DYNAMIC_RDMA_GOLDEN_SETTING*/
+	<1>, /*MTK_DRM_OPT_IDLEMGR_DISABLE_ROUTINE_IRQ*/
+	<0>, /*MTK_DRM_OPT_MET_LOG*/
+	<1>, /*MTK_DRM_OPT_USE_PQ*/
+	<1>, /*MTK_DRM_OPT_ESD_CHECK_RECOVERY*/
+	<1>, /*MTK_DRM_OPT_ESD_CHECK_SWITCH*/
+	<1>, /*MTK_DRM_OPT_PRESENT_FENCE*/
+	<0>, /*MTK_DRM_OPT_RDMA_UNDERFLOW_AEE*/
+	<1>, /*MTK_DRM_OPT_DSI_UNDERRUN_AEE*/
+	<1>, /*MTK_DRM_OPT_HRT*/
+	<1>, /*MTK_DRM_OPT_HRT_MODE*/
+	<0>, /*MTK_DRM_OPT_DELAYED_TRIGGER*/
+	<1>, /*MTK_DRM_OPT_OVL_EXT_LAYER*/
+	<1>, /*MTK_DRM_OPT_AOD*/
+	<1>, /*MTK_DRM_OPT_RPO*/
+	<0>, /*MTK_DRM_OPT_DUAL_PIPE*/
+	<0>, /*MTK_DRM_OPT_DC_BY_HRT*/
+	<1>, /*MTK_DRM_OPT_OVL_WCG*/
+	<0>, /*MTK_DRM_OPT_OVL_SBCH*/
+	<1>, /*MTK_DRM_OPT_COMMIT_NO_WAIT_VBLANK*/
+	<0>, /*MTK_DRM_OPT_MET*/
+	<0>, /*MTK_DRM_OPT_REG_PARSER_RAW_DUMP*/
+	<0>, /*MTK_DRM_OPT_VP_PQ*/
+	<0>, /*MTK_DRM_OPT_GAME_PQ*/
+	<0>, /*MTK_DRM_OPT_MMPATH*/
+	<1>, /*MTK_DRM_OPT_HBM*/
+	<0>, /*MTK_DRM_OPT_VDS_PATH_SWITCH*/
+	<0>, /*MTK_DRM_OPT_LAYER_REC*/
+	<0>, /*MTK_DRM_OPT_CLEAR_LAYER*/
+	<1>, /*MTK_DRM_OPT_LFR*/
+	<0>, /*MTK_DRM_OPT_SF_PF*/
+	<1>, /*MTK_DRM_OPT_DYN_MIPI_CHANGE*/
+	<1>, /*MTK_DRM_OPT_PRIM_DUAL_PIPE*/
+	<1>, /*MTK_DRM_OPT_MSYNC2_0*/
+	<1>, /*MTK_DRM_OPT_MML_PRIMARY*/
+	<0>, /*MTK_DRM_OPT_DUAL_TE*/
+	<1>, /*MTK_DRM_OPT_VIRTUAL_DISP*/
+	<1>, /*MTK_DRM_OPT_SPHRT*/
+	<0>, /*MTK_DRM_OPT_SDPA_OVL_SWITCH*/
+	<0>, /*MTK_DRM_OPT_OVL_BW_MONITOR*/
+	<1>, /*MTK_DRM_OPT_RES_SWITCH*/
+	<1>; /*MTK_DRM_OPT_PREFETCH_TE*/
+};
+
+&dsi0 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	panel3@0 {
+		compatible = "ac124,p_3,a0004,cmd";
+		reg = <0>;
+		vddr-enable-gpios = <&pio 51 0>;
+		reset-gpios = <&pio 41 0>;
+		vci-supply = <&wl2868c_ldo6a>;
+		vufsldo-supply = <&mt6363_vufs18>;
+		pinctrl-names = "default";
+		oplus,ofp-fp-type = <0x08>;
+		oplus,ofp-longrui-aod-config = <0x4>;
+		port {
+			oplus_panel_in14: endpoint {
+				remote-endpoint = <&oplus_dsi_out>;
+			};
+		};
+	};
+	panel4@0 {
+		compatible = "ac124,p_b,a0012,cmd";
+		reg = <1>;
+		vddr-enable-gpios = <&pio 51 0>;
+		reset-gpios = <&pio 41 0>;
+		vci-supply = <&wl2868c_ldo6a>;
+		vufsldo-supply = <&mt6363_vufs18>;
+		pinctrl-names = "default";
+		oplus,ofp-fp-type = <0x08>;
+		oplus,ofp-longrui-aod-config = <0x4>;
+		port {
+			oplus_panel_in15: endpoint {
+				remote-endpoint = <&oplus_dsi_out>;
+			};
+		};
+	};
+	ports {
+		port {
+			oplus_dsi_out: endpoint {
+				remote-endpoint = <&oplus_panel_in15>;
+			};
+		};
+	};
+};
+
+&soc {
+	ufshci: ufshci@112b0000 {
+		mediatek,ufs-vcc-always-on;
+		vccq2-supply = <0>;
+	};
+    oplus,f2fs {
+        compress_dedup {
+            switch = "supported";
+        };
+    };
+};
+
+#include "oplus/oplus_uff_23021_23251.dtsi"
+#include <oplus6895_23251/cust.dtsi>
+#include "oplus/cust_mt6895_Huahai_audio.dtsi"
+#include "nfc/mt6895_supreme_23251_pn560.dtsi"
+#include "oplus/cust_mt6895_supreme_camera_v4l2.dtsi"
+/*End of this file, DO NOT ADD ANYTHING HERE*/
+

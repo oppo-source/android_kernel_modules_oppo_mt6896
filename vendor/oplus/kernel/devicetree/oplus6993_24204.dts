@@ -1,0 +1,143 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/*
+ * Copyright (C) 2022 MediaTek Inc.
+ */
+#include "k6993v1_64.dts"
+
+/* #ifdef OPLUS_DISPLAY_FEATURE */
+#include "oplus/oplus-display/mt6993-zhujiang-24203-display-overlay.dtsi"
+
+/* #ifdef OPLUS_FEATURE_SENSOR */
+#include "oplus/oplus_sensor_24087.dtsi"
+/* #endif */
+
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+#include "oplus/oplus_chg/oplus_charge_24087_export.dtsi"
+/* #endif */
+/* #ifdef CONFIG_UFF_FINGERPRINT */
+#include "oplus/oplus_uff_24087_24203_24204.dtsi"
+/* #endif CONFIG_UFF_FINGERPRINT */
+
+/* #ifdef OPLUS_FEATURE_ICC dukai */
+#include "oplus/oplus_icc/oplus_icc_24082.dtsi"
+/* #endif */
+#include <dt-bindings/pinctrl/mt6661-pinfunc.h>
+
+&odm {
+	/*OPLUS_FEATURE_OEM_OCDT oppo project start */
+	oplus_project:oplus_project {
+		compatible = "oplus,oplus_project";
+    };
+};
+
+&odm {
+/* Add for sim detect */
+    oplus_sim_detect {
+        compatible = "oplus, sim_detect";
+        Hw,sim_det = <&pio 224 0x00>;
+    };
+};
+
+//#ifdef OPLUS_FEATRUE_SIM_DETECT
+&odm {
+    oplus-gpio {
+        compatible = "oplus,oplus-gpio";
+        pinctrl-names = "default", "sim2_det_no_pull", "sim2_det_pull_high", "sim2_det_pull_low";
+        pinctrl-0 = <&esim_gpio &esim_det_en &sim2_det_no_pull>;
+        pinctrl-1 = <&sim2_det_no_pull>;
+        pinctrl-2 = <&sim2_det_pull_high>;
+        pinctrl-3 = <&sim2_det_pull_low>;
+        oplus,oplus-gpio-esim = <&mt6661_4_pio 8 0>;
+        oplus,oplus-esim-en = <&pio 28 0>;
+        oplus,oplus-sim2-det = <&pio 74 0>;
+    };
+};
+
+&mt6661_4_pio {
+    esim_gpio: esim_gpio {
+        pins_cmd_dat {
+            pinmux = <PINMUX_MT6661_GPIO8__FUNC_GPIO8>;
+            drive-strength = <2>; /* 2 MA */
+            output-high;
+        };
+    };
+};
+
+&pio {
+    esim_det_en: esim_det_en {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO28__FUNC_GPIO28>;
+            slew-rate = <1>;
+            bias-disable; /* NO pull */
+            drive-strength = <2>; /* 2 MA */
+            output-high;
+        };
+    };
+
+    sim2_det_no_pull: sim2_det_no_pull {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO74__FUNC_GPIO74>;
+            slew-rate = <0>;
+            bias-disable; /* NO pull */
+            input-enable;
+        };
+    };
+
+    sim2_det_pull_high: sim2_det_pull_high {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO74__FUNC_GPIO74>;
+            slew-rate = <0>;
+            bias-pull-up;
+            input-enable;
+        };
+    };
+
+    sim2_det_pull_low: sim2_det_pull_low {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO74__FUNC_GPIO74>;
+            slew-rate = <0>;
+            bias-pull-down;
+            input-enable;
+        };
+    };
+};
+
+&soc {
+    //#ifdef CONFIG_HMBIRD_SCHED
+    oplus,hmbird {
+        config_type {
+            type = "HMBIRD_EXT";
+        };
+    };
+    //#endif /* CONFIG_HMBIRD_SCHED */
+
+    oplus_mm_config: oplus,mm_config {
+        compatible = "oplus,mm_osvelte-config";
+        ram-12g {
+            oplus_bsp_zram_opt {
+                balance_anon_file_reclaim_always_true;
+            };
+        };
+    };
+};
+
+&pio {
+	//#ifdef OPLUS_VENDOR_SWTP
+	swtp: swtp {
+		compatible = "mediatek, swtp-eint";
+	};
+	 swtp_1: swtp_1 {
+        compatible = "mediatek, swtp1-eint";
+    };
+	//#endif  /*OPLUS_VENDOR_SWTP*/
+};
+
+#include "oplus/wifi/mt6993_wifi_cust_without_CS.dtsi"
+#include <oplus6993_24204/cust.dtsi>
+#include "oplus/oplus_cust_mt6993_camera_v4l2_24087.dtsi"
+#include "oplus/tp/oplus_tp_24087.dtsi"
+#include "oplus/cust_mt6993_zhujiang_audio.dtsi"
+#include "oplus/nfc/mt6993_24204_sn220.dtsi"
+#include "oplus/oplus_misc/oplus_misc_24087.dtsi"
+/*End of this file, DO NOT ADD ANYTHING HERE*/
+

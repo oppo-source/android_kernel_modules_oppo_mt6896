@@ -1,0 +1,12 @@
+#project        hardware_name    fake_name      des
+Huanghe         IMX966           hhmain         main cam
+Huanghe         IMX615           hhfront        front cam
+Huanghe         S5KJN5           hhuwide        ultra wide cam
+Huanghe         IMX882           hhtele         tele cam
+Huanghe         SEE6810C         hhmwcs         2M mwcs cam
+Changjiang      IMX09A           cjmain         main cam
+Changjiang      S5KJN5           cjfront        front cam
+Changjiang      S5KJN5           hhuwide        ultra wide cam
+Changjiang      S5KHP5           cjtele         tele cam
+Changjiang      SEE6810C         hhmwcs         2M mwcs cam
+

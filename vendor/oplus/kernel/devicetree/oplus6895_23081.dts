@@ -1,0 +1,311 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/*
+ * Copyright (C) 2022 MediaTek Inc.
+ */
+#include "k6895v1_64.dts"
+#include "wl28681c-regulator_23081.dtsi"
+//#ifdef OPLUS_FEATURE_SENSOR
+#include "oplus/oplus_sensor_23081.dtsi"
+//#endif
+#include "oplus/tp/oplus_tp_23081.dtsi"
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+#include "oplus/oplus_chg/oplus_charge_23081.dtsi"
+/* #endif */
+&odm {
+	devinfo {
+		compatible = "oplus-devinfo";
+		pinctrl-names = "default", "aboard_gpio0_sleep", "aboard_gpio0_active", "aboard_gpio0_idle";
+		pinctrl-0 = <&hw_pins_default>;
+		pinctrl-1 = <&aboard_pin_gpio0_sleep>;
+		pinctrl-2 = <&aboard_pin_gpio0_active>;
+		pinctrl-3 = <&aboard_pin_gpio0_idle>;
+		main-sub {
+			use_tristate_gpio;
+			compatible = "hw-match, main-sub";
+			aboard-gpio0 = <&pio 100 0x00>;
+			aboard-patterns = <1>;	/*0[high-resistance] 1[pull-down] 2[pull-up]*/
+			/*main board*/
+			match-projects = <23081>;
+		};
+	};
+
+	kpd_volume_down:kpd_volume_down {
+				compatible = "mediatek, VOLUME_DOWN-eint";
+				interrupt-parent = <&pio>;
+				interrupts = <127 IRQ_TYPE_EDGE_FALLING 127 0>;
+				debounce = <32000>;
+				status = "okay";
+	};
+	
+	pmic_history_count:pmic_history_count {
+	};
+	pmic_history0:pmic_history0 {
+	};
+	pmic_history1:pmic_history1 {
+	};
+	pmic_history2:pmic_history2 {
+	};
+	pmic_history3:pmic_history3 {
+	};
+	
+};
+
+&dispsys_config {
+	pinctrl-names =
+		"lcm_rst_out1_gpio", "lcm_rst_out0_gpio",
+		"mode_te_te";
+	pinctrl-0 = <&mtkfb_pins_lcm_rst_out1_gpio>;
+	pinctrl-1 = <&mtkfb_pins_lcm_rst_out0_gpio>;
+	pinctrl-2 = <&mtkfb_pins_lcm_dsi_te>;
+	status = "okay";
+	support_mml_cmd_mode;
+
+	helper-name = "MTK_DRM_OPT_STAGE",
+			"MTK_DRM_OPT_USE_CMDQ",
+			"MTK_DRM_OPT_USE_M4U",
+			"MTK_DRM_OPT_MMQOS_SUPPORT",
+			"MTK_DRM_OPT_MMDVFS_SUPPORT",
+			"MTK_DRM_OPT_SODI_SUPPORT",
+			"MTK_DRM_OPT_IDLE_MGR",
+			"MTK_DRM_OPT_IDLEMGR_SWTCH_DECOUPLE",
+			"MTK_DRM_OPT_IDLEMGR_BY_REPAINT",
+			"MTK_DRM_OPT_IDLEMGR_ENTER_ULPS",
+			"MTK_DRM_OPT_IDLEMGR_KEEP_LP11",
+			"MTK_DRM_OPT_DYNAMIC_RDMA_GOLDEN_SETTING",
+			"MTK_DRM_OPT_IDLEMGR_DISABLE_ROUTINE_IRQ",
+			"MTK_DRM_OPT_MET_LOG",
+			"MTK_DRM_OPT_USE_PQ",
+			"MTK_DRM_OPT_ESD_CHECK_RECOVERY",
+			"MTK_DRM_OPT_ESD_CHECK_SWITCH",
+			"MTK_DRM_OPT_PRESENT_FENCE",
+			"MTK_DRM_OPT_RDMA_UNDERFLOW_AEE",
+			"MTK_DRM_OPT_DSI_UNDERRUN_AEE",
+			"MTK_DRM_OPT_HRT",
+			"MTK_DRM_OPT_HRT_MODE",
+			"MTK_DRM_OPT_DELAYED_TRIGGER",
+			"MTK_DRM_OPT_OVL_EXT_LAYER",
+			"MTK_DRM_OPT_AOD",
+			"MTK_DRM_OPT_RPO",
+			"MTK_DRM_OPT_DUAL_PIPE",
+			"MTK_DRM_OPT_DC_BY_HRT",
+			"MTK_DRM_OPT_OVL_WCG",
+			"MTK_DRM_OPT_OVL_SBCH",
+			"MTK_DRM_OPT_COMMIT_NO_WAIT_VBLANK",
+			"MTK_DRM_OPT_MET",
+			"MTK_DRM_OPT_REG_PARSER_RAW_DUMP",
+			"MTK_DRM_OPT_VP_PQ",
+			"MTK_DRM_OPT_GAME_PQ",
+			"MTK_DRM_OPT_MMPATH",
+			"MTK_DRM_OPT_HBM",
+			"MTK_DRM_OPT_VDS_PATH_SWITCH",
+			"MTK_DRM_OPT_LAYER_REC",
+			"MTK_DRM_OPT_CLEAR_LAYER",
+			"MTK_DRM_OPT_LFR",
+			"MTK_DRM_OPT_SF_PF",
+			"MTK_DRM_OPT_DYN_MIPI_CHANGE",
+			"MTK_DRM_OPT_PRIM_DUAL_PIPE",
+			"MTK_DRM_OPT_MSYNC2_0",
+			"MTK_DRM_OPT_MML_PRIMARY",
+			"MTK_DRM_OPT_DUAL_TE",
+			"MTK_DRM_OPT_VIRTUAL_DISP",
+			"MTK_DRM_OPT_SPHRT",
+			"MTK_DRM_OPT_SDPA_OVL_SWITCH",
+			"MTK_DRM_OPT_OVL_BW_MONITOR",
+			"MTK_DRM_OPT_RES_SWITCH",
+			"MTK_DRM_OPT_PREFETCH_TE";
+
+	helper-value = <0>, /*MTK_DRM_OPT_STAGE*/
+	<1>, /*MTK_DRM_OPT_USE_CMDQ*/
+	<1>, /*MTK_DRM_OPT_USE_M4U*/
+	<1>, /*MTK_DRM_OPT_MMQOS_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_MMDVFS_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_SODI_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_IDLE_MGR*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_SWTCH_DECOUPLE*/
+	<1>, /*MTK_DRM_OPT_IDLEMGR_BY_REPAINT*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_ENTER_ULPS*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_KEEP_LP11*/
+	<1>, /*MTK_DRM_OPT_DYNAMIC_RDMA_GOLDEN_SETTING*/
+	<1>, /*MTK_DRM_OPT_IDLEMGR_DISABLE_ROUTINE_IRQ*/
+	<0>, /*MTK_DRM_OPT_MET_LOG*/
+	<1>, /*MTK_DRM_OPT_USE_PQ*/
+	<1>, /*MTK_DRM_OPT_ESD_CHECK_RECOVERY*/
+	<1>, /*MTK_DRM_OPT_ESD_CHECK_SWITCH*/
+	<1>, /*MTK_DRM_OPT_PRESENT_FENCE*/
+	<0>, /*MTK_DRM_OPT_RDMA_UNDERFLOW_AEE*/
+	<1>, /*MTK_DRM_OPT_DSI_UNDERRUN_AEE*/
+	<1>, /*MTK_DRM_OPT_HRT*/
+	<1>, /*MTK_DRM_OPT_HRT_MODE*/
+	<0>, /*MTK_DRM_OPT_DELAYED_TRIGGER*/
+	<1>, /*MTK_DRM_OPT_OVL_EXT_LAYER*/
+	<1>, /*MTK_DRM_OPT_AOD*/
+	<1>, /*MTK_DRM_OPT_RPO*/
+	<0>, /*MTK_DRM_OPT_DUAL_PIPE*/
+	<0>, /*MTK_DRM_OPT_DC_BY_HRT*/
+	<1>, /*MTK_DRM_OPT_OVL_WCG*/
+	<0>, /*MTK_DRM_OPT_OVL_SBCH*/
+	<1>, /*MTK_DRM_OPT_COMMIT_NO_WAIT_VBLANK*/
+	<0>, /*MTK_DRM_OPT_MET*/
+	<0>, /*MTK_DRM_OPT_REG_PARSER_RAW_DUMP*/
+	<0>, /*MTK_DRM_OPT_VP_PQ*/
+	<0>, /*MTK_DRM_OPT_GAME_PQ*/
+	<0>, /*MTK_DRM_OPT_MMPATH*/
+	<1>, /*MTK_DRM_OPT_HBM*/
+	<0>, /*MTK_DRM_OPT_VDS_PATH_SWITCH*/
+	<0>, /*MTK_DRM_OPT_LAYER_REC*/
+	<0>, /*MTK_DRM_OPT_CLEAR_LAYER*/
+	<1>, /*MTK_DRM_OPT_LFR*/
+	<0>, /*MTK_DRM_OPT_SF_PF*/
+	<1>, /*MTK_DRM_OPT_DYN_MIPI_CHANGE*/
+	<1>, /*MTK_DRM_OPT_PRIM_DUAL_PIPE*/
+	<1>, /*MTK_DRM_OPT_MSYNC2_0*/
+	<1>, /*MTK_DRM_OPT_MML_PRIMARY*/
+	<0>, /*MTK_DRM_OPT_DUAL_TE*/
+	<1>, /*MTK_DRM_OPT_VIRTUAL_DISP*/
+	<1>, /*MTK_DRM_OPT_SPHRT*/
+	<0>, /*MTK_DRM_OPT_SDPA_OVL_SWITCH*/
+	<0>, /*MTK_DRM_OPT_OVL_BW_MONITOR*/
+	<1>, /*MTK_DRM_OPT_RES_SWITCH*/
+	<1>; /*MTK_DRM_OPT_PREFETCH_TE*/
+};
+
+&odm {
+	/*OPLUS_FEATURE_OEM_OCDT oppo project start */
+	oplus_project:oplus_project {
+		compatible = "oplus,oplus_project";
+    };
+
+	oplus_boardid:oplus_boardid {
+		compatible = "oplus,oplus_boardid";
+		oplus_boardid,dtsino="23081";//only one u32
+		oplus_boardid,pcbmask="0xffff";//all mask 0xffff
+	};
+};
+
+&pio {
+
+	hw_pins_default:default@hw_sub_id {
+	};
+	aboard_pin_gpio0_sleep:sleep@id0 {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO100__FUNC_GPIO100>;
+			slew-rate = <0>;
+			bias-pull-down;
+			input-enable;
+		};
+	};
+
+	aboard_pin_gpio0_active:active@id0 {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO100__FUNC_GPIO100>;
+			slew-rate = <0>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
+	aboard_pin_gpio0_idle:idle@id0 {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO100__FUNC_GPIO100>;
+			slew-rate = <0>;
+			bias-disable;
+			input-enable;
+		};
+	};
+
+
+
+	//#ifdef OPLUS_VENDOR_SWTP
+	swtp: swtp {
+		compatible = "mediatek, swtp-eint";
+	};
+	 swtp_1: swtp_1 {
+        compatible = "mediatek, swtp1-eint";
+    };
+	//#endif  /*OPLUS_VENDOR_SWTP*/
+};
+&mt6368_vmch {
+	regulator-min-microvolt = <3100000>;
+	regulator-max-microvolt = <3100000>;
+	//regulator-boot-on;
+	//regulator-always-on;
+};
+&mtk_leds {
+	compatible = "mediatek,disp-leds";
+	backlight {
+		label = "lcd-backlight";
+		led_mode = <4>;
+		min-brightness = <1>;
+		max-brightness = <4095>;
+		max-hw-brightness = <4095>;
+		led-bits = <13>;
+		apollo-state = "on";
+		};
+};
+
+&dsi0 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	panel1@0 {
+		compatible = "ac160,p_3,a0004,cmd";
+		reg = <0>;
+		reset-gpios = <&pio 41 0>;
+		1p2-gpios = <&pio 120 0>;
+		vddr-supply = <&mt6368_vrf13_aif>;
+		vci-supply = <&wl2868c_ldo6a>;
+		vufsldo-supply = <&mt6363_vufs18>;
+		pinctrl-names = "default";
+                oplus,ofp-fp-type = <0x08>;
+		oplus,ofp-longrui-aod-config = <0x4>;
+		port {
+			oplus_panel_in16: endpoint {
+				remote-endpoint = <&oplus_dsi_out>;
+			};
+		};
+	};
+	panel2@0 {
+		compatible = "ac160,p_7,a0001,cmd";
+		reg = <1>;
+		reset-gpios = <&pio 41 0>;
+		1p2-gpios = <&pio 120 0>;
+		vddr-supply = <&mt6368_vrf13_aif>;
+		vci-supply = <&wl2868c_ldo6a>;
+		vufsldo-supply = <&mt6363_vufs18>;
+		pinctrl-names = "default";
+                oplus,ofp-fp-type = <0x08>;
+		oplus,ofp-longrui-aod-config = <0x4>;
+		port {
+			oplus_panel_in17: endpoint {
+				remote-endpoint = <&oplus_dsi_out>;
+			};
+		};
+	};
+	ports {
+		port {
+			oplus_dsi_out: endpoint {
+				remote-endpoint = <&oplus_panel_in16>;
+			};
+		};
+	};
+};
+
+&soc {
+	ufshci: ufshci@112b0000 {
+		mediatek,ufs-vcc-always-on;
+		vccq2-supply = <0>;
+	};
+    oplus,f2fs {
+        compress_dedup {
+            switch = "supported";
+        };
+    };
+};
+
+#include "oplus/oplus_uff_23081.dtsi"
+#include <oplus6895_23081/cust.dtsi>
+#include "oplus/cust_mt6895_Omega_C2_audio.dtsi"
+#include "oplus/cust_mt6895_omegac2_camera_v4l2.dtsi"
+#include "nfc/mt6895_23081_sn220.dtsi"
+/*End of this file, DO NOT ADD ANYTHING HERE*/
+

@@ -1,0 +1,118 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+* Copyright (C) 2021-2020 Oplus. All rights reserved.
+*/
+#include <dt-bindings/iio/mt635x-auxadc.h>
+#include <dt-bindings/pinctrl/mt6993-pinfunc.h>
+#include <dt-bindings/pinctrl/mt65xx.h>
+
+/* charge start */
+&regulator_vibrator{
+	status = "disabled";
+};
+
+&ssusb {
+	maximum-speed = "high-speed";
+};
+
+&u2port0 {
+	mediatek,eye-vrt = <7>;
+	mediatek,eye-term = <7>;
+	mediatek,rev6 = <3>;
+	mediatek,eye-vrt-host = <7>;
+	mediatek,eye-term-host = <7>;
+	mediatek,rev6-host = <3>;
+	mediatek,discth = <0xb>;
+};
+
+&mt6379_eusb2_repeater {
+	mediatek,vrt-sel = <0x1>;
+	mediatek,pre-emphasis = <0x6>;
+	mediatek,rx-sqth = <0x5>;
+	mediatek,equalization = <0x4>;
+	mediatek,discth = <0x6>;
+};
+
+&charger {
+	oplus,low_batt_otg_boost_curr_ua = <500000>;
+};
+
+&ps5170 {
+	status = "disabled";
+};
+
+&i2c5 {
+	status = "okay";
+	clock-frequency = <1000000>;
+
+
+	aw_haptic@5A {
+		status = "okay";
+		compatible = "oplus,aw_haptic";
+		reg = <0x5A>;
+		reset-gpio = <&pio 30 0x00>;
+		irq-gpio = <&pio 29 0x00>;
+		qcom,device_id = <809>;
+		bus_id-lk = <5>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&aw_irq_gpio_default>;
+		oplus,livetap_support;
+		oplus,drv2_time = /bits/ 8 <0x30>;
+		oplus,auto_break_mode_support;
+
+		aw8693xs_boost_voltage = <0x11>;
+		aw8693xs_vmax = /bits/ 8 < 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11
+					0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 0x11 >;
+		aw8693xs_gain = /bits/ 8 < 0x00 0x0b 0x10 0x15 0x1b 0x20 0x25 0x2b 0x31 0x36 0x3c 0x41
+					0x47 0x50 0x5a 0x60 0x64 0x67 0x6b 0x6e 0x72 0x75 0x79 0x79 0x79 >;
+
+		aw8693xs_cont_brk_gain = /bits/ 8 < 0x08 >;
+		aw8693xs_cont_brk_time = /bits/ 8 < 0x06 >;
+		aw8693xs_d2s_gain = /bits/ 8 < 0x07 >;
+		aw8693xs_bemf_d2s_gain = /bits/ 8 < 0x04 >;
+		aw8693xs_trig_config = /bits/ 8 < 0 0 0 1 0 2 0 0
+						 0 0 0 1 0 2 0 0
+						 0 0 0 1 0 2 0 0 >;
+		aw8693xs_is_enabled_vbat_pro;
+		oplus,vbat_low_soc = <5>;
+		oplus,vbat_low_soc_cold = <20>;
+		oplus,vbat_low_temp = <(-50)>; /*-5C*/
+		oplus,vbat_low_vmax_level = <2000>;
+	};
+};
+
+&lk_charger {
+	/*0:pmic_vib 1:gpio_vib 2:si_vib 3:aw_vib*/
+	vibr_scheme = <3>;
+	en_vol_ctrl_vibrate = <6400>;
+};
+
+&i2c5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c5_mode_default>;
+};
+
+&pio{
+	aw_irq_gpio_default: aw_irq_gpio_default {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO29__FUNC_GPIO29>;
+			input-enable;
+			bias-pull-up;
+		};
+	};
+
+	i2c5_mode_default: i2c5_mode_default {
+	pins_cmd_dat {
+			pinmux = <PINMUX_GPIO178__FUNC_SCL5>,
+				 <PINMUX_GPIO179__FUNC_SDA5>;
+			bias-pull-up = <MTK_PULL_SET_RSEL_111>;
+		};
+	};
+};
+
+&odm {
+	feedback_fb: feedback_fb {
+		compatible = "oplus,haptic-feedback";
+	};
+};

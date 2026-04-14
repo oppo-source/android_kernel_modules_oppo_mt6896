@@ -1,0 +1,397 @@
+&panel_ac285_p_7_a0020_dsi_cmd {
+	oplus,dsi-display-panel@0 {
+		reg = <0>;
+		oplus,dsi-vendor-name = "A0020";
+		oplus,dsi-manufacture = "P_7";
+		/* round corner */
+		//#include "panel-ac285-p-7-a0020-dsi-cmd-round-corner.dtsi"
+		oplus,dsi-display-timings {
+			timing@sa_fhd_120 {
+				cell-index = <2>;
+				oplus,dsi-panel-framerate = <120>;
+				oplus,dsi-panel-pllclk = <553>;
+				/* OPLUS_FEATURE_DISPLAY_ONSCREENFINGERPRINT */
+				oplus,ofp_need_keep_apart_backlight;
+				oplus,ofp-hbm-on-delay = <0>;
+				oplus,ofp-pre-hbm-off-delay = <2>;
+				oplus,ofp-hbm-off-delay = <0>;
+				oplus,ofp-need-to-sync-data-in-aod-unlocking;
+				oplus,ofp-aod-off-insert-black = <1>;
+				oplus,ofp-aod-off-black-frame-total-time = <42>;
+				#include "panel-ac285-p-7-a0020-dsi-cmd-common.dtsi"
+				oplus,dsi-timing-switch-command = [
+					39 00 00 40 00 00 04 FF 5A A5 00
+					15 00 00 00 00 00 02 60 00
+				];
+				oplus,dsi-on-command = [
+					39 00 00 00 00 00 04 FF 5A A5 07
+					15 00 00 00 00 00 02 8A 01
+					39 00 00 00 00 00 03 8B 21 E0
+					39 00 00 00 00 00 64 80 00 00 00 00 00 12 00 00 AB 30 80 0A 50 04 C0 00 14 02 60 02 60 02 00 02 4A 00 20 01 EF 00 08 00 0D 05 7A 04 7B 18 00 10 E0 07 10 20 00 06 0F 0F 33 0E 1C 2A 38 46 54 62 69 70 77 79 7B 7D 7E 02 02 22 00 2A 40 2A BE 3A FC 3A FA 3A F8 3B 38 3B 78 3B B6 4B B6 4B F4 4B F4 6C 34 84 74 00 00 00 00 00 00
+					39 00 00 00 00 00 04 FF 5A A5 00
+					39 00 00 00 00 00 04 FF 5A A5 08
+					15 00 00 00 00 00 02 C8 62 // Sleepoutdon'treload
+					39 00 00 00 00 00 04 FF 5A A5 53
+					39 00 00 00 00 00 07 A0 00 0C 18 80 D0 E0
+					39 00 00 00 00 00 04 FF 5A A5 53
+					15 00 00 00 00 00 02 F0 01 // MURA_TUNNING
+					//SGOD Ratio setting
+					39 00 00 00 00 00 04 FF 5A A5 63
+					39 00 00 00 00 00 11 81 80 80 80 4C 40 10 00 00 80 80 80 80 40 10 00 00
+					39 00 00 00 00 00 11 82 80 80 80 80 80 40 00 00 80 80 80 80 80 80 00 00
+					39 00 00 00 00 00 11 86 00 28 28 34 0C 00 60 50 00 5C 4C 40 3C 00 1C 44
+					39 00 00 00 00 00 11 87 00 A8 88 50 40 00 74 60 00 B8 98 70 58 00 28 08
+					39 00 00 00 00 00 10 8D 30 10 20 20 00 00 24 00 00 00 00 00 00 00 00
+					39 00 00 00 00 00 10 92 40 40 40 3C 00 60 50 00 74 64 54 5C 00 3C 44
+					39 00 00 00 00 00 10 93 D0 B0 70 68 00 9C 78 00 B8 A8 80 68 00 48 30
+					39 00 00 00 00 00 10 9E 2C 30 34 18 00 60 50 00 60 4C 3C 3C 00 28 44
+					39 00 00 00 00 00 10 9F B0 80 50 40 00 74 60 00 B8 90 68 58 00 38 10
+					39 00 00 00 00 00 04 FF 5A A5 53
+					15 00 00 00 00 00 02 80 00
+					15 00 00 00 00 00 02 F0 00 // MURA_TUNNING
+					39 00 00 00 00 00 04 FF 5A A5 21 // PAGE21
+					15 00 00 00 00 00 02 A4 18 //Flashreload
+					39 00 00 00 00 00 04 FF 5A A5 00
+					//---LTPO Function---//
+					15 00 00 00 00 00 02 5E 01 // Skip frame Enable
+					15 00 00 00 00 00 02 60 00 // Normal mode1 = 120Hz.
+					15 00 00 00 00 00 02 61 02 // AOD in Mode3 = 30Hz
+					15 00 00 00 00 00 02 6D 01 // IRC enable
+					15 00 00 00 00 00 02 35 00 // TE On
+					15 00 00 00 00 00 02 53 20 // BC On,0xDimmingOff
+					39 00 00 00 00 00 05 51 0D BB 03 FF // 12-bitDBV
+					//Light On
+					39 00 00 00 78 00 01 11 // Sleep out
+					39 00 00 00 00 00 01 29 // Display out
+				];
+				oplus,dsi-aod-off-command = [
+					39 00 00 40 00 00 02 38 00
+					39 00 00 00 00 00 03 51 00 00
+				];
+				oplus,dsi-hbm-on-command = [
+					39 00 00 00 00 00 03 51 0E 7A
+				];
+				oplus,dsi-hbm-off-command = [
+					39 00 00 00 00 00 03 51 0D BB
+				];
+
+				oplus,dsi-timing-switch-command-state = "dsi_hs_mode";
+				oplus,dsi-on-command-state = "dsi_lp_mode";
+				oplus,dsi-aod-off-command-state = "dsi_ls_mode";
+				oplus,dsi-hbm-on-command-state = "dsi_hs_mode";
+				oplus,dsi-hbm-off-command-state = "dsi_hs_mode";
+				oplus,dsc-params-entries = <&dsc_params>;
+				oplus,dyn-fps {
+					switch_en = <1>;
+					vact_timing_fps = <120>;
+					apollo_limit_superior_us = <4900>;
+					apollo_limit_inferior_us = <6750>;
+					apollo_transfer_time_us = <6200>;
+				};
+				oplus,display-mode {
+					display-mode@0 {
+						hdisplay = <1216>;
+						vdisplay = <2640>;
+						fhd-hfp = <2>;
+						fhd-hsa = <26>;
+						fhd-hbp = <36>;
+						fhd-vfp = <100>;
+						fhd-vsa = <8>;
+						fhd-vbp = <76>;
+						hskew = <STANDARD_ADFR>;
+					};
+					display-mode@1 {
+						hdisplay = <1080>;
+						vdisplay = <2344>;
+						fhd-hfp = <2>;
+						fhd-hsa = <26>;
+						fhd-hbp = <36>;
+						fhd-vfp = <100>;
+						fhd-vsa = <8>;
+						fhd-vbp = <76>;
+						hskew = <STANDARD_ADFR>;
+					};
+				};
+			};
+			timing@sa_fhd_90 {
+				cell-index = <2>;
+				oplus,dsi-panel-framerate = <90>;
+				oplus,dsi-panel-pllclk = <553>;
+				/* OPLUS_FEATURE_DISPLAY_ONSCREENFINGERPRINT */
+				oplus,ofp_need_keep_apart_backlight;
+				oplus,ofp-hbm-on-delay = <0>;
+				oplus,ofp-pre-hbm-off-delay = <2>;
+				oplus,ofp-hbm-off-delay = <0>;
+				oplus,ofp-need-to-sync-data-in-aod-unlocking;
+				oplus,ofp-aod-off-insert-black = <1>;
+				oplus,ofp-aod-off-black-frame-total-time = <42>;
+				#include "panel-ac285-p-7-a0020-dsi-cmd-common.dtsi"
+				oplus,dsi-timing-switch-command = [
+					39 00 00 40 00 00 04 FF 5A A5 00
+					15 00 00 00 00 00 02 60 03
+				];
+				oplus,dsi-on-command = [
+					39 00 00 00 00 00 04 FF 5A A5 07
+					15 00 00 00 00 00 02 8A 01
+					39 00 00 00 00 00 03 8B 21 E0
+					39 00 00 00 00 00 64 80 00 00 00 00 00 12 00 00 AB 30 80 0A 50 04 C0 00 14 02 60 02 60 02 00 02 4A 00 20 01 EF 00 08 00 0D 05 7A 04 7B 18 00 10 E0 07 10 20 00 06 0F 0F 33 0E 1C 2A 38 46 54 62 69 70 77 79 7B 7D 7E 02 02 22 00 2A 40 2A BE 3A FC 3A FA 3A F8 3B 38 3B 78 3B B6 4B B6 4B F4 4B F4 6C 34 84 74 00 00 00 00 00 00
+					39 00 00 00 00 00 04 FF 5A A5 00
+					39 00 00 00 00 00 04 FF 5A A5 08
+					15 00 00 00 00 00 02 C8 62 // Sleepoutdon'treload
+					39 00 00 00 00 00 04 FF 5A A5 53
+					39 00 00 00 00 00 07 A0 00 0C 18 80 D0 E0
+					39 00 00 00 00 00 04 FF 5A A5 53
+					15 00 00 00 00 00 02 F0 01 // MURA_TUNNING
+					//SGOD Ratio setting
+					39 00 00 00 00 00 04 FF 5A A5 63
+					39 00 00 00 00 00 11 81 80 80 80 4C 40 10 00 00 80 80 80 80 40 10 00 00
+					39 00 00 00 00 00 11 82 80 80 80 80 80 40 00 00 80 80 80 80 80 80 00 00
+					39 00 00 00 00 00 11 86 00 28 28 34 0C 00 60 50 00 5C 4C 40 3C 00 1C 44
+					39 00 00 00 00 00 11 87 00 A8 88 50 40 00 74 60 00 B8 98 70 58 00 28 08
+					39 00 00 00 00 00 10 8D 30 10 20 20 00 00 24 00 00 00 00 00 00 00 00
+					39 00 00 00 00 00 10 92 40 40 40 3C 00 60 50 00 74 64 54 5C 00 3C 44
+					39 00 00 00 00 00 10 93 D0 B0 70 68 00 9C 78 00 B8 A8 80 68 00 48 30
+					39 00 00 00 00 00 10 9E 2C 30 34 18 00 60 50 00 60 4C 3C 3C 00 28 44
+					39 00 00 00 00 00 10 9F B0 80 50 40 00 74 60 00 B8 90 68 58 00 38 10
+					39 00 00 00 00 00 04 FF 5A A5 53
+					15 00 00 00 00 00 02 80 00
+					15 00 00 00 00 00 02 F0 00 // MURA_TUNNING
+					39 00 00 00 00 00 04 FF 5A A5 21 // PAGE21
+					15 00 00 00 00 00 02 A4 18 //Flashreload
+					39 00 00 00 00 00 04 FF 5A A5 00
+					//---LTPO Function---//
+					15 00 00 00 00 00 02 5E 01 // Skip frame Enable
+					15 00 00 00 00 00 02 60 00 // Normal mode1 = 120Hz.
+					15 00 00 00 00 00 02 61 02 // AOD in Mode3 = 30Hz
+					15 00 00 00 00 00 02 6D 01 // IRC enable
+					15 00 00 00 00 00 02 35 00 // TE On
+					15 00 00 00 00 00 02 53 20 // BC On,0xDimmingOff
+					39 00 00 00 00 00 05 51 0D BB 03 FF // 12-bitDBV
+					//Light On
+					39 00 00 00 78 00 01 11 // Sleep out
+					39 00 00 00 00 00 01 29 // Display out
+				];
+				oplus,dsi-aod-off-command = [
+					39 00 00 40 00 00 02 38 00
+					39 00 00 00 00 00 03 51 00 00
+				];
+				oplus,dsi-hbm-on-command = [
+					39 00 00 00 00 00 03 51 0E 7A
+				];
+				oplus,dsi-hbm-off-command = [
+					39 00 00 00 00 00 03 51 0D BB
+				];
+
+				oplus,dsi-timing-switch-command-state = "dsi_hs_mode";
+				oplus,dsi-on-command-state = "dsi_lp_mode";
+				oplus,dsi-aod-off-command-state = "dsi_ls_mode";
+				oplus,dsi-hbm-on-command-state = "dsi_hs_mode";
+				oplus,dsi-hbm-off-command-state = "dsi_hs_mode";
+				oplus,dsc-params-entries = <&dsc_params>;
+				oplus,dyn-fps {
+					switch_en = <1>;
+					vact_timing_fps = <90>;
+					apollo_limit_superior_us = <7880>;
+					apollo_limit_inferior_us = <10000>;
+					apollo_transfer_time_us = <8800>;
+				};
+				oplus,display-mode {
+					display-mode@0 {
+						hdisplay = <1216>;
+						vdisplay = <2640>;
+						fhd-hfp = <2>;
+						fhd-hsa = <26>;
+						fhd-hbp = <36>;
+						fhd-vfp = <100>;
+						fhd-vsa = <8>;
+						fhd-vbp = <76>;
+						hskew = <STANDARD_ADFR>;
+					};
+					display-mode@1 {
+						hdisplay = <1080>;
+						vdisplay = <2344>;
+						fhd-hfp = <2>;
+						fhd-hsa = <26>;
+						fhd-hbp = <36>;
+						fhd-vfp = <100>;
+						fhd-vsa = <8>;
+						fhd-vbp = <76>;
+						hskew = <STANDARD_ADFR>;
+					};
+				};
+			};
+			timing@sa_fhd_60 {
+				cell-index = <2>;
+				oplus,dsi-panel-framerate = <60>;
+				oplus,dsi-panel-pllclk = <553>;
+				/* OPLUS_FEATURE_DISPLAY_ONSCREENFINGERPRINT */
+				oplus,ofp_need_keep_apart_backlight;
+				oplus,ofp-hbm-on-delay = <0>;
+				oplus,ofp-pre-hbm-off-delay = <2>;
+				oplus,ofp-hbm-off-delay = <0>;
+				oplus,ofp-need-to-sync-data-in-aod-unlocking;
+				oplus,ofp-aod-off-insert-black = <1>;
+				oplus,ofp-aod-off-black-frame-total-time = <42>;
+				#include "panel-ac285-p-7-a0020-dsi-cmd-common.dtsi"
+				oplus,dsi-timing-switch-command = [
+					39 00 00 40 00 00 04 FF 5A A5 00
+					15 00 00 00 00 00 02 60 04
+				];
+				oplus,dsi-on-command = [
+					39 00 00 00 00 00 04 FF 5A A5 07
+					15 00 00 00 00 00 02 8A 01
+					39 00 00 00 00 00 03 8B 21 E0
+					39 00 00 00 00 00 64 80 00 00 00 00 00 12 00 00 AB 30 80 0A 50 04 C0 00 14 02 60 02 60 02 00 02 4A 00 20 01 EF 00 08 00 0D 05 7A 04 7B 18 00 10 E0 07 10 20 00 06 0F 0F 33 0E 1C 2A 38 46 54 62 69 70 77 79 7B 7D 7E 02 02 22 00 2A 40 2A BE 3A FC 3A FA 3A F8 3B 38 3B 78 3B B6 4B B6 4B F4 4B F4 6C 34 84 74 00 00 00 00 00 00
+					39 00 00 00 00 00 04 FF 5A A5 00
+					39 00 00 00 00 00 04 FF 5A A5 08
+					15 00 00 00 00 00 02 C8 62 // Sleepoutdon'treload
+					39 00 00 00 00 00 04 FF 5A A5 53
+					39 00 00 00 00 00 07 A0 00 0C 18 80 D0 E0
+					39 00 00 00 00 00 04 FF 5A A5 53
+					15 00 00 00 00 00 02 F0 01 // MURA_TUNNING
+					//SGOD Ratio setting
+					39 00 00 00 00 00 04 FF 5A A5 63
+					39 00 00 00 00 00 11 81 80 80 80 4C 40 10 00 00 80 80 80 80 40 10 00 00
+					39 00 00 00 00 00 11 82 80 80 80 80 80 40 00 00 80 80 80 80 80 80 00 00
+					39 00 00 00 00 00 11 86 00 28 28 34 0C 00 60 50 00 5C 4C 40 3C 00 1C 44
+					39 00 00 00 00 00 11 87 00 A8 88 50 40 00 74 60 00 B8 98 70 58 00 28 08
+					39 00 00 00 00 00 10 8D 30 10 20 20 00 00 24 00 00 00 00 00 00 00 00
+					39 00 00 00 00 00 10 92 40 40 40 3C 00 60 50 00 74 64 54 5C 00 3C 44
+					39 00 00 00 00 00 10 93 D0 B0 70 68 00 9C 78 00 B8 A8 80 68 00 48 30
+					39 00 00 00 00 00 10 9E 2C 30 34 18 00 60 50 00 60 4C 3C 3C 00 28 44
+					39 00 00 00 00 00 10 9F B0 80 50 40 00 74 60 00 B8 90 68 58 00 38 10
+					39 00 00 00 00 00 04 FF 5A A5 53
+					15 00 00 00 00 00 02 80 00
+					15 00 00 00 00 00 02 F0 00 // MURA_TUNNING
+					39 00 00 00 00 00 04 FF 5A A5 21 // PAGE21
+					15 00 00 00 00 00 02 A4 18 //Flashreload
+					39 00 00 00 00 00 04 FF 5A A5 00
+					//---LTPO Function---//
+					15 00 00 00 00 00 02 5E 01 // Skip frame Enable
+					15 00 00 00 00 00 02 60 00 // Normal mode1 = 120Hz.
+					15 00 00 00 00 00 02 61 02 // AOD in Mode3 = 30Hz
+					15 00 00 00 00 00 02 6D 01 // IRC enable
+					15 00 00 00 00 00 02 35 00 // TE On
+					15 00 00 00 00 00 02 53 20 // BC On,0xDimmingOff
+					39 00 00 00 00 00 05 51 0D BB 03 FF // 12-bitDBV
+					//Light On
+					39 00 00 00 78 00 01 11 // Sleep out
+					39 00 00 00 00 00 01 29 // Display out
+				];
+				oplus,dsi-aod-off-command = [
+					39 00 00 40 00 00 02 38 00
+					39 00 00 00 00 00 03 51 00 00
+				];
+				oplus,dsi-hbm-on-command = [
+					39 00 00 00 00 00 03 51 0E 7A
+				];
+				oplus,dsi-hbm-off-command = [
+					39 00 00 00 00 00 03 51 0D BB
+				];
+
+				oplus,dsi-timing-switch-command-state = "dsi_hs_mode";
+				oplus,dsi-on-command-state = "dsi_lp_mode";
+				oplus,dsi-aod-off-command-state = "dsi_ls_mode";
+				oplus,dsi-hbm-on-command-state = "dsi_hs_mode";
+				oplus,dsi-hbm-off-command-state = "dsi_hs_mode";
+				oplus,dsc-params-entries = <&dsc_params>;
+				oplus,dyn-fps {
+					switch_en = <1>;
+					vact_timing_fps = <60>;
+					apollo_limit_superior_us = <11540>;
+					apollo_limit_inferior_us = <15500>;
+					apollo_transfer_time_us = <7800>;
+				};
+				oplus,display-mode {
+					display-mode@0 {
+						hdisplay = <1216>;
+						vdisplay = <2640>;
+						fhd-hfp = <2>;
+						fhd-hsa = <26>;
+						fhd-hbp = <36>;
+						fhd-vfp = <100>;
+						fhd-vsa = <8>;
+						fhd-vbp = <76>;
+						hskew = <STANDARD_MFR>;
+					};
+					display-mode@1 {
+						hdisplay = <1080>;
+						vdisplay = <2344>;
+						fhd-hfp = <2>;
+						fhd-hsa = <26>;
+						fhd-hbp = <36>;
+						fhd-vfp = <100>;
+						fhd-vsa = <8>;
+						fhd-vbp = <76>;
+						hskew = <STANDARD_MFR>;
+					};
+				};
+			};
+		};
+	};
+};
+
+&panel_ac285_p_7_a0020_dsi_cmd {
+	oplus,dsi-display-panel@0 {
+		res-switch = <0>;
+		/* Hardware config */
+		oplus,panel-supply-entries = <&dsi_panel_pwr_supply>;
+		oplus,panel-power-on-sequence = "1", "vddi", "5", "vddr", "5", "vci", "1";
+		oplus,panel-power-off-sequence = "2", "vci", "5", "vddr", "5", "vddi", "1";
+		reset-gpios = <&pio 89 0>;
+		oplus,panel-reset-sequence = <2 10>, <1 1>, <0 1>, <1 20>;
+		/* Panel config */
+		oplus,dsi-serial-number-enabled=<0>;
+		oplus,dsi-serial-number-index= <0>;
+		oplus,dsi-serial-number-reg= <0xA1>;
+		oplus,dsi-serial-number-read-count= <6>;
+		oplus,dsi-serial-number-year-offset= <10>;
+		//oplus,mode-switch-h2l-delay;
+		/* PWM config */
+		oplus,pwm-turbo-support = <0>; /* 0 not support, 1 with switch, 2 Global high frequency pwm without switch */
+		oplus,pwm-switch-backlight-threshold = <0x481>;
+		/* ADFR config */
+		oplus-adfr-config = <0>;
+		/* OFP config */
+		// oplus,ofp-fp-type = <0x10>;
+		// oplus,ofp-longrui-aod-config = <0x02>;
+		/* ext_params */
+		oplus,panel-type = <2>;
+		oplus,lane-swap-en = <0>;
+		oplus,lane-swap = <
+			MIPITX_PHY_LANE_0 MIPITX_PHY_LANE_1 MIPITX_PHY_LANE_3 MIPITX_PHY_LANE_2 MIPITX_PHY_LANE_CK MIPITX_PHY_LANE_0
+			MIPITX_PHY_LANE_0 MIPITX_PHY_LANE_1 MIPITX_PHY_LANE_3 MIPITX_PHY_LANE_2 MIPITX_PHY_LANE_CK MIPITX_PHY_LANE_0
+		>;
+		oplus,lcm-color-mode = <MTK_DRM_COLOR_MODE_DISPLAY_P3>;
+		oplus,output-mode = <MTK_PANEL_DSC_SINGLE_PORT>;
+		oplus,panel-bpp = <10>;
+		oplus,physical-width-um = <67123>;
+		oplus,physical-height-um = <145728>;
+		/* color */
+		oplus,color-vivid-status;
+		oplus,color-srgb-status;
+		// oplus,color-softiris-status;
+		// oplus,color-dual-panel-status;
+		oplus,color-dual-brightness-status;
+		oplus,color-oplus-calibrate-status;
+		// oplus,color-samsung-status;
+		oplus,color-loading-status;
+		oplus,color-2nit-status;
+		// oplus,color-nature-profession-status;
+		/* ESD */
+		oplus,cust-esd-check = <2>;
+		oplus,esd-check-enable = <0>;
+		oplus,esd_check_cmd = [
+			0A
+		];
+		oplus,esd_check_count = [
+			01
+		];
+		oplus,esd_check_value = [
+			9C
+		];
+		oplus,esd_check_mask = [
+			FF
+		];
+	};
+};

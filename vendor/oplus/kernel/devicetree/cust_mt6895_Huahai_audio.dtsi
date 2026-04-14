@@ -1,0 +1,149 @@
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/* AUDIO GPIO standardization start */
+	&aud_gpio_i2s0_off {
+		pins_cmd1_dat {
+			pinmux = <PINMUX_GPIO117__FUNC_GPIO117>;
+			input-enable;
+			bias-pull-down;
+		};
+	};
+	&aud_gpio_i2s0_on {
+		pins_cmd1_dat {
+			pinmux = <PINMUX_GPIO117__FUNC_I2S0_DI>;
+			input-schmitt-enable;
+			bias-disable;
+		};
+	};
+	&aud_gpio_i2s3_off {
+		pins_cmd1_dat {
+			pinmux = <PINMUX_GPIO115__FUNC_GPIO115>;
+			input-enable;
+			bias-pull-down;
+		};
+		pins_cmd2_dat {
+			pinmux = <PINMUX_GPIO116__FUNC_GPIO116>;
+			input-enable;
+			bias-pull-down;
+		};
+		pins_cmd3_dat {
+			pinmux = <PINMUX_GPIO118__FUNC_GPIO118>;
+			input-enable;
+			bias-pull-down;
+		};
+	};
+	&aud_gpio_i2s3_on {
+		pins_cmd1_dat {
+			pinmux = <PINMUX_GPIO115__FUNC_I2S3_BCK>;
+			input-schmitt-enable;
+			bias-disable;
+		};
+		pins_cmd2_dat {
+			pinmux = <PINMUX_GPIO116__FUNC_I2S3_LRCK>;
+			input-schmitt-enable;
+			bias-disable;
+		};
+		pins_cmd3_dat {
+			pinmux = <PINMUX_GPIO118__FUNC_I2S3_DO>;
+			input-schmitt-enable;
+			bias-disable;
+		};
+	};
+/* AUDIO GPIO standardization end */
+
+&accdet {
+	accdet-mic-vol = <7>;
+	headset-three-key-threshold = <0 82 170 306>;
+};
+
+&audio_extend {
+	//for nxp speaker
+	oplus,speaker-vendor = "awinic_digital";
+	oplus,speaker-i2s-id = <3>;
+	oplus,speaker-i2s-id-in = <0>;
+	oplus,speaker-codec-name = "aw882xx_smartpa.6-0034";
+	oplus,speaker-codec-dai-name = "aw882xx-aif-6-34";
+};
+
+&i2c6 {
+	clock-frequency = <400000>;
+
+	tfa98xx_R: tfa98xx@35 {
+		compatible = "nxp,tfa98xx";
+		reg = <0x35>;
+		reset-gpio = <&pio 158 0>;
+		tfa_min_range = <5000>;
+		tfa_max_range = <8000>;
+		tfa_channel = <1>;
+		is_use_freq;
+		status = "disabled";
+	};
+
+	aw882xx_smartpa_0: aw882xx_smartpa@34 {
+		compatible = "awinic,aw882xx_smartpa";
+		#sound-dai-cells = <0>;
+		reg = <0x34>;
+		dc-flag = <0>;
+		sync-flag = <0>;
+		sound-channel = <0>;
+		aw-re-min = <5000>;
+		aw-re-max= <8000>;
+		aw-cali-mode = "aw_misc";
+		status = "okay";
+	};
+};
+
+&i2c6 {
+	fsa4480: fsa4480@42 {
+		compatible = "qcom,fsa4480-i2c";
+		reg = <0x42>;
+		pinctrl-names = "default";
+		/* pinctrl-0 = <&fsa_hs_det>; */
+		fsa4480,hs-det-gpio = <&pio 53 0>;
+		status = "disabled";
+	};
+
+	was4783: was4783@42 {
+		 compatible = "oplus,typec-switch-i2c";
+		 reg = <0x42>;
+		 pinctrl-names = "default";
+		 pinctrl-0 = <&typec_switch_hs_det>;
+		 oplus,hs-det-gpio = <&pio 53 0>;
+		 status = "okay";
+	 };
+};
+
+&pio {
+	typec_switch_hs_det: typec_switchs_hs_det {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO53__FUNC_GPIO53>;
+			slew-rate = <1>;
+			output-high;
+		};
+	};
+
+	/*fsa_hs_det: fsa_hs_det {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO53__FUNC_GPIO53>;
+			slew-rate = <1>;
+			output-high;
+		};
+	};*/
+};
+
+&sound {
+	mediatek,spk-i2s = <3 9>; /*<MTK_SPK_I2S_3, MTK_SPK_TINYCONN_I2S_0>*/
+	mediatek,speaker-codec {
+		sound-dai = <&aw882xx_smartpa_0>;
+	};
+};

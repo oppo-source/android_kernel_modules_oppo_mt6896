@@ -1,0 +1,47 @@
+/* 24081 24082 no ufcs */
+#include "oplus_charge_24082_common.dtsi"
+
+&oplus_cpa {
+	oplus,protocol_list = <CHG_PROTOCOL_UFCS 80
+			       CHG_PROTOCOL_VOOC 80
+			       CHG_PROTOCOL_PPS 55
+			       CHG_PROTOCOL_PD 18
+			       CHG_PROTOCOL_QC 18>;
+	oplus,default_protocol_list = <CHG_PROTOCOL_UFCS
+				       CHG_PROTOCOL_VOOC
+				       CHG_PROTOCOL_PPS
+				       CHG_PROTOCOL_PD>;
+};
+
+&oplus_virtual_buck {
+			oplus,buck_ic = <&charger &byb_hl7603 &byb_hl7603_second &byb_hl7603_third>;
+			oplus,buck_ic_index = <0 1 2 3>;
+			oplus,buck_ic_current_ratio = <100 0 0 0>;
+			oplus,buck_ic_connect = <OPLUS_CHG_IC_CONNECT_PARALLEL>;
+			oplus,main_charger = <0>;
+			oplus,buck_ic_func_group = <&mtk_6991_groups &byb_hl7603_groups &byb_hl7603_groups &byb_hl7603_groups>;
+
+			oplus,ic_type = <OPLUS_CHG_IC_VIRTUAL_BUCK>;
+			oplus,ic_index = <0>;
+
+			io-channels = <&mt6661_6_auxadc AUXADC_VIN4>, <&mt6661_6_auxadc AUXADC_VIN5>;
+			io-channel-names = "usb_temp_adc_l", "usb_temp_adc_r";
+
+			oplus,uart_tx-gpio = <&pio 226 0x00>;
+			oplus,uart_rx-gpio = <&pio 227 0x00>;
+};
+
+&i2c3 {
+	status = "okay";
+	clock-frequency = <400000>;
+
+	byb_hl7603_third: byb-hl7603-02@75 {
+		status = "okay";
+		compatible = "oplus,byb-hl7603";
+		reg = <0x75>;
+		oplus,ic_type = <OPLUS_CHG_IC_BOOST>;
+		oplus,ic_index = <2>;
+		oplus,vout-mv = <3700>;
+		oplus,ilim-ma = <6000>;
+	};
+};

@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: GPL-2.0
+/* Copyright (c) 2020 MediaTek Inc. */
+
+#include <dt-bindings/pinctrl/mt6661-pinfunc.h>
+
+&mt6661_3_pio {
+	tfa98xx_gpio_L: tfa98xx_gpio_L {
+		pins_cmd_dat {
+			pinmux = <PINMUX_MT6661_GPIO10__FUNC_GPIO10>;
+			output-low;
+		};
+	};
+
+	tfa98xx_gpio_R: tfa98xx_gpio_R {
+		pins_cmd_dat {
+			pinmux = <PINMUX_MT6661_GPIO11__FUNC_GPIO11>;
+			output-low;
+		};
+	};
+};
+
+&i2c6 {
+	clock-frequency = <400000>;
+
+	tfa98xx_L: tfa98xx@34 {
+		compatible = "tfa,tfa98xx";
+		reg = <0x34>;
+		reset-gpio = <&mt6661_3_pio 10 0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&tfa98xx_gpio_L>;
+		tfa_min_range = <5300>;
+		tfa_max_range = <7500>;
+		f0_range_min = <100>;
+		f0_range_max = <2000>;
+		is_use_freq;
+		reset-polarity = <0>;
+		mediatek,vs-voter = <&mt6661_3 0x178A 0x02 1>;
+		tfa98xx_vdd-supply = <&mt6661_5_lnc0_8>;
+		channel-config = <1>;
+		status = "okay";
+	};
+
+	tfa98xx_R: tfa98xx@35 {
+		compatible = "tfa,tfa98xx";
+		reg = <0x35>;
+		reset-gpio = <&mt6661_3_pio 11 0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&tfa98xx_gpio_R>;
+		tfa_min_range = <5300>;
+		tfa_max_range = <7500>;
+		f0_range_min = <100>;
+		f0_range_max = <2000>;
+		is_use_freq;
+		reset-polarity = <0>;
+		channel-config = <2>;
+		status = "okay";
+	};
+};
+
+&afe {
+	mediatek,ap-dmic = <0>;
+};
+
+&audio_extend {
+	//for nxp speaker
+	oplus,speaker-vendor = "nxp";
+	oplus,speaker-i2s-id = <9>;
+	oplus,speaker-i2s-id-in = <8>;
+	oplus,speaker-codec-name = "tfa98xx.6-0034","tfa98xx.6-0035";
+	oplus,speaker-codec-dai-name = "tfa98xx-aif-6-34","tfa98xx-aif-6-35";
+	oplus,spk-i2s-index = <25 24>;
+};
+
+
+
