@@ -1,0 +1,238 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/*
+ * Copyright (C) 2022 MediaTek Inc.
+ */
+#include "k6993v1_64.dts"
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+#include "oplus/oplus_chg/oplus_charge_24082_for_3_byb.dtsi"
+/* #endif */
+/* #ifdef OPLUS_FEATURE_SENSOR */
+#include "oplus/oplus_sensor_24081.dtsi"
+/* #endif */
+
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+/* Add for DX-5 misc device-tree */
+#include "oplus/oplus_misc/oplus_misc_24081.dtsi"
+/* #endif */
+
+/* #ifdef OPLUS_FEATURE_ICC dukai */
+#include "oplus/oplus_icc/oplus_icc_24082.dtsi"
+/* #ifdef OPLUS_DISPLAY_FEATURE */
+#include "oplus/oplus-display/mt6993-changjiang-24082-display-overlay.dtsi"
+/* #endif */
+#include <dt-bindings/pinctrl/mt6661-pinfunc.h>
+&odm {
+	/*OPLUS_FEATURE_OEM_OCDT oppo project start */
+	oplus_project:oplus_project {
+		compatible = "oplus,oplus_project";
+    };
+};
+
+&odm {
+/* Add for sim detect */
+    oplus_sim_detect {
+        compatible = "oplus, sim_detect";
+        Hw,sim_det = <&pio 224 0x00>;
+    };
+
+	pmic_history_count:pmic_history_count {
+	};
+	pmic_history0:pmic_history0 {
+	};
+	pmic_history1:pmic_history1 {
+	};
+	pmic_history2:pmic_history2 {
+	};
+	pmic_history3:pmic_history3 {
+	};
+};
+
+//#ifdef OPLUS_FEATRUE_SIM_DETECT
+&odm {
+    oplus-gpio {
+        compatible = "oplus,oplus-gpio";
+        pinctrl-names = "default", "sim2_det_no_pull", "sim2_det_pull_high", "sim2_det_pull_low";
+        pinctrl-0 = <&esim_gpio &esim_det_en &sim2_det_no_pull>;
+        pinctrl-1 = <&sim2_det_no_pull>;
+        pinctrl-2 = <&sim2_det_pull_high>;
+        pinctrl-3 = <&sim2_det_pull_low>;
+        oplus,oplus-gpio-esim = <&mt6661_4_pio 8 0>;
+        oplus,oplus-esim-en = <&pio 28 0>;
+        oplus,oplus-sim2-det = <&pio 74 0>;
+    };
+};
+
+&mt6661_4_pio {
+    esim_gpio: esim_gpio {
+        pins_cmd_dat {
+            pinmux = <PINMUX_MT6661_GPIO8__FUNC_GPIO8>;
+            drive-strength = <2>; /* 2 MA */
+            output-high;
+        };
+    };
+};
+
+&pio {
+    esim_det_en: esim_det_en {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO28__FUNC_GPIO28>;
+            slew-rate = <1>;
+            bias-disable; /* NO pull */
+            drive-strength = <2>; /* 2 MA */
+            output-high;
+        };
+    };
+
+    sim2_det_no_pull: sim2_det_no_pull {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO74__FUNC_GPIO74>;
+            slew-rate = <0>;
+            bias-disable; /* NO pull */
+            input-enable;
+        };
+    };
+
+    sim2_det_pull_high: sim2_det_pull_high {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO74__FUNC_GPIO74>;
+            slew-rate = <0>;
+            bias-pull-up;
+            input-enable;
+        };
+    };
+
+    sim2_det_pull_low: sim2_det_pull_low {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO74__FUNC_GPIO74>;
+            slew-rate = <0>;
+            bias-pull-down;
+            input-enable;
+        };
+    };
+};
+
+&soc {
+    //#ifdef CONFIG_HMBIRD_SCHED
+    oplus,hmbird {
+        config_type {
+            type = "HMBIRD_EXT";
+        };
+    };
+    //#endif /* CONFIG_HMBIRD_SCHED */
+
+    oplus_mm_config: oplus,mm_config {
+        compatible = "oplus,mm_osvelte-config";
+        ram-12g {
+            oplus_bsp_zram_opt {
+                balance_anon_file_reclaim_always_true;
+            };
+        };
+    };
+};
+
+&pio {
+	//#ifdef OPLUS_VENDOR_SWTP
+	swtp: swtp {
+		compatible = "mediatek, swtp-eint";
+	};
+	 swtp_1: swtp_1 {
+        compatible = "mediatek, swtp1-eint";
+    };
+	//#endif  /*OPLUS_VENDOR_SWTP*/
+};
+
+/* #ifdef SATELLITE RSMC */
+/* Add for DX-5 satellite rsmc */
+&spi4 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "oplus_rsmc_spi_default", "oplus_rsmc_spi_active";
+	pinctrl-0 = <&oplus_x801_spi_default>;
+	pinctrl-1 = <&oplus_x801_spi_active>;
+	cetc_rsmc: cetc_rsmc@0 {
+		status = "okay";
+		compatible = "cetc,rsmc";
+		spi-bus-id = <0>;
+		reg = <0>;
+		spi-mode = <0>;
+		spi-max-frequency = <6000000>;
+		pa_gpio = <&mt6667_8_pio 1 0x00>;
+		en_gpio = <&pio 78 0x00>;
+		irq_gpio = <&pio 127 0x00>;
+		mcu_rst_gpio = <&pio 126 0x00>;
+		//rsmc-tcxo-vcc-supply = <&mt6373_vaud18>;
+		rsmc-tcxo-vcc-type = <1>;//means use GPIO to control
+		//rsmc-tcxo-vcc-value = <1800000>;
+		tcxo_pwr_gpio = <&mt6667_8_pio 4 0x00>;
+		tcxo_pwr_after_delay_ms = <20>;
+		rsmc_enable_x801;
+
+		rsmc_vc1_ant_gpio = <&pio 142 0x00>;
+		rsmc_vc2_ant_gpio = <&pio 138 0x00>;
+		rsmc_vc3_ant_gpio = <&pio 136 0x00>;
+		//rsmc_vc4_ant_gpio = <&pio 187 0x00>;
+		//Llna_gpio = <&pio 137 0x00>;
+		//S2lna_gpio = <&pio 191 0x00>;
+		//Lprotect_gpio = <&pio 141 0x00>;
+		//Srx_ant_switch_gpio = <&pio 210 0x01>;
+
+		vc1_truth_table_value = <12>;
+		vc2_truth_table_value = <8>;
+		vc3_truth_table_value = <12>;
+		//vc4_truth_table_value = <0>;
+		//Llna_truth_table_value = <0>;
+		//S2lna_truth_table_value = <0>;
+		//Lprotect_truth_table_value = <0>;
+		//Srx_ant_switch_truth_table_value = <0>;
+		platform = <0>;//means MTK
+		mediatek,rsmc-voter = <&mt6661_3 0x178A 0x08 1>;
+	};
+};
+
+&pio {
+ 	oplus_x801_spi_default: oplus_x801_spi_default{
+ 		pins_cmd_dat {
+ 			pinmux = <PINMUX_GPIO156__FUNC_GPIO156>,
+ 					<PINMUX_GPIO157__FUNC_GPIO157>,
+ 					<PINMUX_GPIO158__FUNC_GPIO158>,
+ 					<PINMUX_GPIO159__FUNC_GPIO159>;
+ 			slew-rate = <1>;
+ 			output-low;
+ 		};
+ 	};
+
+ 	oplus_x801_spi_active: oplus_x801_spi_active{
+         pins_cmd_dat {
+             pinmux = <PINMUX_GPIO159__FUNC_SPI4_A_MI>,
+ 					<PINMUX_GPIO158__FUNC_SPI4_A_MO>,
+ 					<PINMUX_GPIO156__FUNC_SPI4_A_CLK>,
+ 					<PINMUX_GPIO157__FUNC_SPI4_A_CSB>;
+ 		};
+ 	};
+};
+
+&i2c3 {
+    status = "ok";
+    rpc@77 {
+        compatible = "oplus,satellite_hl7603";
+        reg = <0x77>;
+        rm_name = "DCDC_HL7603";
+        oplus,hl7603_vout_voltage = <35>;
+    };
+};
+/* #endif */
+
+#include "oplus/wifi/mt6993_wifi_cust_with_CS.dtsi"
+#include <oplus6993_24082/cust.dtsi>
+#include "oplus/cust_mt6993_changjiang_audio.dtsi"
+#include "oplus/oplus_cust_mt6993_vow_breeno.dtsi"
+#include "oplus/nfc/mt6993_24082_sn220.dtsi"
+#include "oplus/oplus_cust_mt6993_camera_v4l2_24081.dtsi"
+#include "oplus/tp/oplus_tp_24081.dtsi"
+
+/* #ifdef CONFIG_UFF_FINGERPRINT */
+#include "oplus/oplus_uff_24081_24082_24206.dtsi"
+/* #endif CONFIG_UFF_FINGERPRINT */
+/*End of this file, DO NOT ADD ANYTHING HERE*/
+

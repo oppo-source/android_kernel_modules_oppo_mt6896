@@ -1,0 +1,317 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/*
+ * Copyright (C) 2022 MediaTek Inc.
+ */
+#include "k6789v1_64.dts"
+
+/* #ifdef CONFIG_UFF_FINGERPRINT */
+#include "oplus/oplus_uff_25281.dtsi"
+#include "oplus_chg/oplus6789_charger_25281.dtsi"
+/* #endif CONFIG_UFF_FINGERPRINT */
+
+/* #ifdef OPLUS_FEATURE_SENSOR */
+#include "oplus/oplus_sensor_25281.dtsi"
+/* #endif */
+
+#include "nfc/mt6789_cruiser_l4_pn560.dtsi"
+
+#include "oplus/cust_mt6789_camera_25281.dtsi"
+
+#include "tp/oplus_touch_25281.dtsi"
+
+#include "oplus/cust_mt6789_cl4_thermal.dtsi"
+
+&mtk_leds {
+		compatible = "mediatek,disp-leds";
+		backlight {
+			label = "lcd-backlight";
+			led_mode = <4>;
+			max-brightness = <4094>;
+			max-hw-brightness = <4094>;
+			led-bits = <12>;
+			trans-bits = <12>;
+			default-state = "on";
+			apollo-state = "disable";
+            brightness2-state = "enable";
+	};
+};
+&pio {
+	mtkfb_pins_lcm_led_en1: lcm_led_en1_gpio {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO12__FUNC_GPIO12>;
+			slew-rate = <1>;
+			output-high;
+		};
+	};
+
+	mtkfb_pins_lcm_led_en0: lcm_led_en0_gpio {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO12__FUNC_GPIO12>;
+			slew-rate = <1>;
+			output-low;
+		};
+	};
+
+	mtkfb_pins_lcm_rst_out1_gpio: lcm_rst_out1_gpio {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO85__FUNC_GPIO85>;
+			slew-rate = <1>;
+			output-high;
+		};
+	};
+
+	mtkfb_pins_lcm_rst_out0_gpio: lcm_rst_out0_gpio {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO85__FUNC_GPIO85>;
+			slew-rate = <1>;
+			output-low;
+		};
+	};
+	mtkfb_pins_lcm_dsi_te: lcm_dsi_te {
+		pins_cmd_dat {
+			pinmux = <PINMUX_GPIO83__FUNC_DSI_TE>;
+		};
+	};
+};
+
+&dsi0 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	panel3@2 {
+		compatible = "ac386,p_3,a0025,vdo,panel";
+		reg = <0>;
+		reset-gpios = <&pio 85 0>;
+		vddr-gpios = <&pio 110 0>;
+		vci-gpios = <&pio 154 0>;
+		fake-width = <1080>;
+		fake-heigh = <2372>;
+		lcm-esd-err-fg-gpios = <&pio 8 0>;
+		oplus,ofp-fp-type = <0xA10>;
+		pinctrl-names = "default";
+		port {
+			oplus_panel_in3: endpoint {
+				remote-endpoint = <&dsi_out>;
+			};
+		};
+	};
+	ports {
+		port {
+			dsi_out: endpoint {
+				remote-endpoint = <&oplus_panel_in3>;
+			};
+		};
+	};
+};
+
+&dispsys_config {
+	pinctrl-names =
+		"lcm_rst_out1_gpio", "lcm_rst_out0_gpio",
+		"mode_te_te";
+	pinctrl-0 = <&mtkfb_pins_lcm_rst_out1_gpio>;
+	pinctrl-1 = <&mtkfb_pins_lcm_rst_out0_gpio>;
+	pinctrl-2 = <&mtkfb_pins_lcm_dsi_te>;
+	status = "okay";
+	helper-value = <0>, /*MTK_DRM_OPT_STAGE*/
+	<1>, /*MTK_DRM_OPT_USE_CMDQ*/
+	<1>, /*MTK_DRM_OPT_USE_M4U*/
+	<1>, /*MTK_DRM_OPT_MMQOS_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_MMDVFS_SUPPORT*/
+	<0>, /*MTK_DRM_OPT_SODI_SUPPORT*/
+	<1>, /*MTK_DRM_OPT_IDLE_MGR*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_SWTCH_DECOUPLE*/
+	<1>, /*MTK_DRM_OPT_IDLEMGR_BY_REPAINT*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_ENTER_ULPS*/
+	<0>, /*MTK_DRM_OPT_IDLEMGR_KEEP_LP11*/
+	<0>, /*MTK_DRM_OPT_DYNAMIC_RDMA_GOLDEN_SETTING*/
+	<1>, /*MTK_DRM_OPT_IDLEMGR_DISABLE_ROUTINE_IRQ*/
+	<0>, /*MTK_DRM_OPT_MET_LOG*/
+	<1>, /*MTK_DRM_OPT_USE_PQ*/
+	<1>, /*MTK_DRM_OPT_ESD_CHECK_RECOVERY*/
+	<1>, /*MTK_DRM_OPT_ESD_CHECK_SWITCH*/
+	<1>, /*MTK_DRM_OPT_PRESENT_FENCE*/
+	<0>, /*MTK_DRM_OPT_RDMA_UNDERFLOW_AEE*/
+	<1>, /*MTK_DRM_OPT_DSI_UNDERRUN_AEE*/
+	<1>, /*MTK_DRM_OPT_HRT*/
+	<1>, /*MTK_DRM_OPT_HRT_MODE*/
+	<0>, /*MTK_DRM_OPT_DELAYED_TRIGGER*/
+	<1>, /*MTK_DRM_OPT_OVL_EXT_LAYER*/
+	<0>, /*MTK_DRM_OPT_AOD*/
+	<1>, /*MTK_DRM_OPT_RPO*/
+	<0>, /*MTK_DRM_OPT_DUAL_PIPE*/
+	<0>, /*MTK_DRM_OPT_DC_BY_HRT*/
+	<0>, /*MTK_DRM_OPT_OVL_WCG*/
+	<0>, /*MTK_DRM_OPT_OVL_SBCH*/
+	<1>, /*MTK_DRM_OPT_COMMIT_NO_WAIT_VBLANK*/
+	<0>, /*MTK_DRM_OPT_MET*/
+	<0>, /*MTK_DRM_OPT_REG_PARSER_RAW_DUMP*/
+	<0>, /*MTK_DRM_OPT_VP_PQ*/
+	<0>, /*MTK_DRM_OPT_GAME_PQ*/
+	<0>, /*MTK_DRM_OPT_MMPATH*/
+	<1>, /*MTK_DRM_OPT_HBM*/
+	<0>, /*MTK_DRM_OPT_VDS_PATH_SWITCH*/
+	<0>, /*MTK_DRM_OPT_LAYER_REC*/
+	<1>, /*MTK_DRM_OPT_CLEAR_LAYER*/
+	<1>, /*MTK_DRM_OPT_LFR*/
+	<0>, /*MTK_DRM_OPT_SF_PF*/
+	<1>, /*MTK_DRM_OPT_DYN_MIPI_CHANGE*/
+	<0>, /*MTK_DRM_OPT_PRIM_DUAL_PIPE*/
+	<0>, /*MTK_DRM_OPT_MSYNC2_0*/
+	<0>, /*MTK_DRM_OPT_VIRTUAL_DISP*/
+	<1>, /*MTK_DRM_OPT_SPHRT*/
+	<0>, /*MTK_DRM_OPT_SDPA_OVL_SWITCH*/
+	<0>, /*MTK_DRM_OPT_OVL_BW_MONITOR*/
+	<0>; /*MTK_DRM_OPT_MML_PRIMARY*/
+};
+
+&pio {
+    //#ifdef OPLUS_VENDOR_SWTP
+    swtp: swtp {
+        compatible = "mediatek, swtp-eint";
+    };
+     swtp_1: swtp_1 {
+         compatible = "mediatek, swtp1-eint";
+        };
+    //#endif  /*OPLUS_VENDOR_SWTP*/
+
+    hw_pins_default:default@hw_sub_id {
+    };
+
+    aboard_pin_gpio0_sleep:sleep@id0 {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO103__FUNC_GPIO103>;
+            slew-rate = <0>;
+            bias-pull-down;
+            input-enable;
+        };
+    };
+
+    aboard_pin_gpio0_active:active@id0 {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO103__FUNC_GPIO103>;
+            slew-rate = <0>;
+            bias-pull-up;
+            input-enable;
+        };
+    };
+
+    aboard_pin_gpio0_idle:idle@id0 {
+        pins_cmd_dat {
+            pinmux = <PINMUX_GPIO103__FUNC_GPIO103>;
+            slew-rate = <0>;
+            bias-disable;
+            input-enable;
+        };
+    };
+};
+
+&odm {
+    /*OPLUS_FEATURE_OEM_OCDT oppo project start */
+    oplus_project:oplus_project {
+        compatible = "oplus,oplus_project";
+    };
+
+    oplus_boardid:oplus_boardid {
+        compatible = "oplus,oplus_boardid";
+        oplus_boardid,dtsino="25281";//only one u32
+        oplus_boardid,pcbmask="0xffff";//all mask 0xffff
+    };
+
+    oplus_devinfo:oplus_devinfo {
+        compatible = "oplus-devinfo";
+        pinctrl-names = "default", "aboard_gpio0_sleep", "aboard_gpio0_active", "aboard_gpio0_idle";
+        pinctrl-0 = <&hw_pins_default>;
+        pinctrl-1 = <&aboard_pin_gpio0_sleep>;
+        pinctrl-2 = <&aboard_pin_gpio0_active>;
+        pinctrl-3 = <&aboard_pin_gpio0_idle>;
+        main-sub {
+            use_tristate_gpio;
+            compatible = "hw-match, main-sub";
+            aboard-gpio0 = <&pio 103 0x00>;
+            aboard-patterns = <0>;  /*0[high-resistance] 1[pull-down] 2[pull-up]*/
+            /*main board*/
+            match-projects = <25281>;
+        };
+    };
+    /*#endif OPLUS_FEATURE_TP_BASIC*/
+
+    vibrator0:vibrator@0 {
+        compatible = "mediatek,vibrator";
+        vib_timer = <25>;
+        vib_limit = <9>;
+        vib_vol= <9>;
+    };
+    /* Add for sim detect */
+    oplus_sim_detect {
+        compatible = "oplus, sim_detect";
+        Hw,sim_det = <&pio 7 0x00>;
+    };
+
+    pmic_history_count:pmic_history_count {
+    };
+    pmic_history0:pmic_history0 {
+    };
+    pmic_history1:pmic_history1 {
+    };
+    pmic_history2:pmic_history2 {
+    };
+    pmic_history3:pmic_history3 {
+    };
+};
+
+/* accdet start */
+&accdet {
+    /* accdet micbias voltage: 0x07,2.7v;0x05,2.5v;0x02,1.9v */
+    accdet-mic-vol = <7>;
+    /* accdet pwm_width, pwm_thresh, fall_delay, rise_delay
+     * debounce0, debounce1, debounce3, debounce4
+     * eint pwm_width, eint pwm_thresh
+     * eint deb(debounce0, debounce1, debounce2, debounce3), inv_debounce
+     */
+    headset-mode-setting = <0x500 0x500 1 0x1f0
+                0x800 0x800 0x20 0x44
+                0x4 0x1
+                0x5 0x3 0x3 0x5 0xe>;
+    accdet-plugout-debounce = <1>;
+    /*0--MD_MAX--UP_MAX--DW_MAX*/
+    headset-three-key-threshold = <0 82 170 400>;
+    headset-three-key-threshold-CDD = <0 121 192 600>;
+    /*0--MD_MAX--VOICE_MAX--UP_MAX--DW_MAX*/
+    headset-four-key-threshold = <0 58 121 192 400>;
+    status = "okay";
+};
+/* accdet end */
+
+&mt6366keys {
+    power-off-time-sec = <0>;
+};
+
+&sound {
+    mediatek,spk-i2s = <3 0>;
+    mediatek,speaker-codec {
+        sound-dai = <&spk>;
+    };
+};
+
+&odm {
+	oplus_mm_config: oplus,mm_config {
+		compatible = "oplus,mm_osvelte-config";
+		ram-8g {
+			ezreclaimd {
+				feature-enable;
+			};
+			kcompressed {
+				feature-enable;
+			};
+			oplus_bsp_mglru_opt {
+				feature-enable;
+			};
+		};
+	};
+};
+
+
+#include <oplus6789_25281/cust.dtsi>
+#include "oplus/oplus6789_cruiser_l4_audio.dtsi"
+/*End of this file, DO NOT ADD ANYTHING HERE*/
+

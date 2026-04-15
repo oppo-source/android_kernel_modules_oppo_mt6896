@@ -1,0 +1,109 @@
+#include "mt6993-dsi-display-conf.h"
+#include "panel-ac287-p-7-a0020-dsi-cmd-ext-params.dtsi"
+
+&dsi0 {
+	panel_ac287_p_7_a0020_dsi_cmd: oplus,panel_ac287_p_7_a0020_dsi_cmd {};
+};
+
+#include "panel-ac287-p-7-a0020-dsi-cmd.dtsi"
+
+&mtk_leds {
+	status = "okay";
+
+	backlight {
+		label = "lcd-backlight";
+		led_mode = <4>;
+		min-brightness = <1>;
+		max-brightness = <4094>;
+		max-hw-brightness = <4094>;
+		oplus-brightness-default-percent = <35>;
+		oplus-brightness-normal-max = <3515>;
+		led-bits = <13>;
+		trans-bits = <13>;
+		default-state = "on";
+	};
+};
+
+&dsi0 {
+	status = "okay";
+	#address-cells = <1>;
+	/* choose second panel which support spr */
+	switch-spr = <1>;
+	/* choose MTK SPR IP */
+	spr-ip-type = <0>;
+	#size-cells = <0>;
+	panel1@0 {
+		compatible = "panel_ac180_p_3_a0020_dsi_cmd";
+		reg = <0>;
+		reset-gpios = <&pio 89 0>;
+		sgm_gpios = <&pio 77 0>;
+		1p2-gpios = <&pio 105 0>;
+		1p8-supply = <&mt6661_3_lnc0_s_11>;
+		3p0-supply = <&mt6661_3_ld20_1>;
+		pinctrl-names = "default";
+		port {
+			oplus_panel_in1: endpoint {
+				remote-endpoint = <&oplus_dsi_out1>;
+			};
+		};
+	};
+
+	panel4@3 {
+		compatible = "oplus_display_dsi_primary";
+		reg = <3>;
+		pmic-reset-gpios = <&pio 79 0>;
+		reset-gpios = <&pio 89 0>;
+		vddr-gpios = <&pio 105 0>;
+		1p2-supply = <&mt6661_4_ln60_5>;
+		vddi-supply = <&mt6661_3_lnc0_s_11>;
+		vci-supply = <&mt6661_3_ld20_1>;
+		pinctrl-names = "default";
+		port {
+			oplus_panel_in4: endpoint {
+				remote-endpoint = <&oplus_dsi_out4>;
+			};
+		};
+	};
+	ports {
+		port {
+			oplus_dsi_out1: endpoint@0 {
+				remote-endpoint = <&oplus_panel_in1>;
+			};
+			oplus_dsi_out4: endpoint@3 {
+				remote-endpoint = <&oplus_panel_in4>;
+			};
+		};
+	};
+};
+
+&dsi0 {
+	dsi_panel_pwr_supply: oplus,dsi_panel_pwr_supply {
+		oplus,panel-supply-entry@0 {
+			reg = <0>;
+			oplus,supply-name = "vddi";
+			oplus,supply-type = <OPLUS_SUPPLY_TYPE_LDO>;
+			oplus,supply-min-voltage = <1800000>;
+			oplus,supply-max-voltage = <1800000>;
+		};
+		oplus,panel-supply-entry@1 {
+			reg = <1>;
+			oplus,supply-name = "vddr";
+			oplus,supply-type = <OPLUS_SUPPLY_TYPE_GPIO>;
+			oplus,supply-gpios = <&pio 105 0>;
+		};
+		oplus,panel-supply-entry@2 {
+			reg = <0>;
+			oplus,supply-name = "1p2";
+			oplus,supply-type = <OPLUS_SUPPLY_TYPE_LDO>;
+			oplus,supply-min-voltage = <1200000>;
+			oplus,supply-max-voltage = <1200000>;
+		};
+		oplus,panel-supply-entry@3 {
+			reg = <2>;
+			oplus,supply-name = "vci";
+			oplus,supply-type = <OPLUS_SUPPLY_TYPE_LDO>;
+			oplus,supply-min-voltage = <3000000>;
+			oplus,supply-max-voltage = <3000000>;
+		};
+	};
+};

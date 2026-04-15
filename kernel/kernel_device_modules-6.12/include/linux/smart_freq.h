@@ -1,0 +1,1 @@
+../../../../vendor/oplus/kernel/cpu/smart_freq/smart_freq.h

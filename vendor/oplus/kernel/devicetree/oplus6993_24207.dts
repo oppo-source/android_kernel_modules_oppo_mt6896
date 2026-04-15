@@ -1,0 +1,80 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/*
+ * Copyright (C) 2022 MediaTek Inc.
+ */
+#include "k6993v1_64.dts"
+
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+#include "oplus/oplus_chg/oplus_charge_24082_domestic.dtsi"
+/* #endif */
+
+/* #ifdef OPLUS_FEATURE_SENSOR */
+#include "oplus/oplus_sensor_24081.dtsi"
+/* #endif */
+
+/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+/* Add for DX-5 misc device-tree */
+#include "oplus/oplus_misc/oplus_misc_24085.dtsi"
+/* #endif */
+/* #ifdef OPLUS_DISPLAY_FEATURE */
+#include "oplus/oplus-display/mt6993-huanghe-24085-display-overlay.dtsi"
+/* #endif */
+
+&odm {
+	/*OPLUS_FEATURE_OEM_OCDT oppo project start */
+	oplus_project:oplus_project {
+		compatible = "oplus,oplus_project";
+    };
+};
+
+&odm {
+/* Add for sim detect */
+    oplus_sim_detect {
+        compatible = "oplus, sim_detect";
+        Hw,sim_det = <&pio 224 0x00>;
+    };
+
+	pmic_history_count:pmic_history_count {
+	};
+	pmic_history0:pmic_history0 {
+	};
+	pmic_history1:pmic_history1 {
+	};
+	pmic_history2:pmic_history2 {
+	};
+	pmic_history3:pmic_history3 {
+	};
+};
+
+&soc {
+    //#ifdef CONFIG_HMBIRD_SCHED
+    oplus,hmbird {
+        config_type {
+            type = "HMBIRD_EXT";
+        };
+    };
+    //#endif /* CONFIG_HMBIRD_SCHED */
+};
+
+&pio {
+	//#ifdef OPLUS_VENDOR_SWTP
+	swtp: swtp {
+		compatible = "mediatek, swtp-eint";
+	};
+	 swtp_1: swtp_1 {
+        compatible = "mediatek, swtp1-eint";
+    };
+	//#endif  /*OPLUS_VENDOR_SWTP*/
+};
+
+#include <oplus6993_24207/cust.dtsi>
+#include "oplus/cust_mt6993_huanghe_audio.dtsi"
+#include "oplus/oplus_cust_mt6993_camera_v4l2_24085.dtsi"
+#include "oplus/tp/oplus_tp_24085.dtsi"
+
+/* #ifdef CONFIG_UFF_FINGERPRINT */
+#include "oplus/oplus_uff_24085_24207_24208.dtsi"
+/* #endif CONFIG_UFF_FINGERPRINT */
+#include "oplus/nfc/mt6993_24207_sn220.dtsi"
+/*End of this file, DO NOT ADD ANYTHING HERE*/
+
